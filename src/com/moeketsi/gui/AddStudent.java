@@ -95,6 +95,8 @@ public class AddStudent extends javax.swing.JFrame {
 
         jLabel1.setText("Select Class");
 
+        cmbClass.addActionListener(this::cmbClassActionPerformed);
+
         jLabel2.setText("First Name");
 
         jLabel3.setText("Last Name");
@@ -190,6 +192,10 @@ public class AddStudent extends javax.swing.JFrame {
      
          
     }//GEN-LAST:event_btnAddStudentActionPerformed
+
+    private void cmbClassActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbClassActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cmbClassActionPerformed
 
     /**
      * @param args the command line arguments

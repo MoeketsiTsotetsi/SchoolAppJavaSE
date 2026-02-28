@@ -5,12 +5,12 @@
 package com.moeketsi.gui;
 
 import com.moeketsi.classes.SchoolClass;
-import com.moeketsi.classes.Student;
 import com.moeketsi.dao.SchoolClassDAO;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import java.sql.SQLIntegrityConstraintViolationException;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -31,7 +31,24 @@ public class Home extends javax.swing.JFrame {
 
         initComponents();
         loadClasses();
+        loadClassesIntoTable();
     }
+    
+    private void loadClassesIntoTable() {
+
+    DefaultTableModel model = 
+        (DefaultTableModel) jTable1.getModel();
+
+    model.setRowCount(0); // clear table
+
+    for (SchoolClass sc : arClasses) {
+        model.addRow(new Object[]{
+            sc.getClassId(),
+            sc.getGradelevel(),
+            sc.getStream()
+        });
+    }
+}
 
     private void loadClasses() {
         try {
@@ -65,20 +82,20 @@ public class Home extends javax.swing.JFrame {
 
     private void displayClassesInTextArea() {
 
-        txtAreaClass.setText(""); // clear first
-
-        StringBuilder sb = new StringBuilder();
-
-        sb.append("ID\tGRADE\tSTREAM\n");
-        sb.append("---------------------------------------------------\n");
-
-        for (SchoolClass sc : arClasses) {
-            sb.append(sc.getClassId()).append("\t")
-                    .append(sc.getGradelevel().toString()).append("\t")
-                    .append(sc.getStream()).append("\n");
-        }
-
-        txtAreaClass.setText(sb.toString());
+//        txtAreaClass.setText(""); // clear first
+//
+//        StringBuilder sb = new StringBuilder();
+//
+//        sb.append("ID\tGRADE\tSTREAM\n");
+//        sb.append("---------------------------------------------------\n");
+//
+//        for (SchoolClass sc : arClasses) {
+//            sb.append(sc.getClassId()).append("\t")
+//                    .append(sc.getGradelevel().toString()).append("\t")
+//                    .append(sc.getStream()).append("\n");
+//        }
+//
+//        txtAreaClass.setText(sb.toString());
     }
 
     /**
@@ -91,33 +108,50 @@ public class Home extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        txtAreaClass = new javax.swing.JTextArea();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         txtGrade = new javax.swing.JTextField();
         txtStream = new javax.swing.JTextField();
         btnAddClass = new javax.swing.JButton();
         btnAddStudents = new javax.swing.JButton();
+        btnAddSubjects = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Add CLass", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION));
 
-        txtAreaClass.setEditable(false);
-        txtAreaClass.setColumns(20);
-        txtAreaClass.setRows(5);
-        jScrollPane1.setViewportView(txtAreaClass);
-
+        jLabel1.setFont(new java.awt.Font("Segoe UI Black", 0, 12)); // NOI18N
         jLabel1.setText("Enter Grade");
 
+        jLabel2.setFont(new java.awt.Font("Segoe UI Black", 0, 12)); // NOI18N
         jLabel2.setText("Enter Stream");
 
+        btnAddClass.setFont(new java.awt.Font("Segoe UI Black", 0, 12)); // NOI18N
         btnAddClass.setText("Add  Class");
         btnAddClass.addActionListener(this::btnAddClassActionPerformed);
 
+        btnAddStudents.setFont(new java.awt.Font("Segoe UI Black", 0, 12)); // NOI18N
         btnAddStudents.setText("Add Students ");
         btnAddStudents.addActionListener(this::btnAddStudentsActionPerformed);
+
+        btnAddSubjects.setFont(new java.awt.Font("Swis721 Blk BT", 0, 12)); // NOI18N
+        btnAddSubjects.setText("Add Subjects");
+        btnAddSubjects.addActionListener(this::btnAddSubjectsActionPerformed);
+
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
+            },
+            new String [] {
+                "ClassId", "Grade_Level", "Stream"
+            }
+        ));
+        jScrollPane2.setViewportView(jTable1);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -138,40 +172,43 @@ public class Home extends javax.swing.JFrame {
                         .addGap(118, 118, 118)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(btnAddStudents, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnAddClass, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 47, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 322, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                            .addComponent(btnAddClass, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnAddSubjects, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 54, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 452, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(38, 38, 38))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(24, 24, 24)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(txtGrade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(31, 31, 31)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(txtStream, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnAddClass)
+                .addGap(18, 18, 18)
+                .addComponent(btnAddStudents)
+                .addGap(18, 18, 18)
+                .addComponent(btnAddSubjects)
+                .addGap(8, 8, 8))
+            .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jScrollPane1)
-                        .addContainerGap())
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel1)
-                            .addComponent(txtGrade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(31, 31, 31)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel2)
-                            .addComponent(txtStream, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 89, Short.MAX_VALUE)
-                        .addComponent(btnAddClass)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnAddStudents)
-                        .addGap(31, 31, 31))))
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -211,6 +248,12 @@ public class Home extends javax.swing.JFrame {
         
     }//GEN-LAST:event_btnAddStudentsActionPerformed
 
+    private void btnAddSubjectsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddSubjectsActionPerformed
+        Subjects sb = new Subjects();
+        
+        sb.setVisible(true);
+    }//GEN-LAST:event_btnAddSubjectsActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -239,11 +282,12 @@ public class Home extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAddClass;
     private javax.swing.JButton btnAddStudents;
+    private javax.swing.JButton btnAddSubjects;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextArea txtAreaClass;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTable jTable1;
     private javax.swing.JTextField txtGrade;
     private javax.swing.JTextField txtStream;
     // End of variables declaration//GEN-END:variables

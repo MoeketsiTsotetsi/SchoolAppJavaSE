@@ -14,7 +14,7 @@ public class Subject {
 
     public Subject(int subjectCode, String subjectName) {
         this.subjectCode = subjectCode;
-        this.subjectCode = subjectCode;
+        setSubjecName(subjectName);
     }
 
     public int getSubjectCode() {
