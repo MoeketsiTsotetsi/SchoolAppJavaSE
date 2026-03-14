@@ -24,16 +24,21 @@ public class Subjects extends javax.swing.JFrame {
 
     
     private String addSubject(Subject sb){
-        String result = "";
-        try {
-              result =SubjectDAO.addSbject(sb);
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(this, e.getMessage());
-        }
+    try {
+        return SubjectDAO.addSbject(sb);  // Using the correctly named DAO method
+    } catch (SQLException e) {
+        // Log the error
+        System.err.println("Database error: " + e.getMessage());
+        e.printStackTrace();
         
-        return result;
-      
+        // Show user-friendly message
+        JOptionPane.showMessageDialog(this, 
+            "Database error occurred. Please try again.",
+            "Error",
+            JOptionPane.ERROR_MESSAGE);
+        return null;  // Return null on error
     }
+}
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -134,21 +139,60 @@ public class Subjects extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void AddSbjectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddSbjectActionPerformed
-        String result;
-        int subjectCode = Integer.parseInt(txtSubjectCode.getText().trim());
-        String subjectName = txtSubjectName.getText().trim();
         
-        Subject sb = new Subject(subjectCode, subjectName);
         
-        System.out.println("Class in gui: "+sb);
-        
-        result = addSubject(sb);
-        
-        if(result!=null){
-            JOptionPane.showMessageDialog(this, result);
-        }else{
-            JOptionPane.showMessageDialog(this, result);
+         try {
+        // Validate inputs
+        String codeText = txtSubjectCode.getText().trim();
+        if (codeText.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Subject Code cannot be empty");
+            return;
         }
+        
+        int subjectCode;
+        try {
+            subjectCode = Integer.parseInt(codeText);
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Subject Code must be a valid number");
+            return;
+        }
+        
+        String subjectName = txtSubjectName.getText().trim();
+        if (subjectName.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Subject Name cannot be empty");
+            return;
+        }
+        
+        // Create subject object (may throw IllegalArgumentException from your class)
+        Subject sb = new Subject(subjectCode, subjectName);
+        System.out.println("Class in gui: " + sb);
+        
+        // Add subject
+        String result = addSubject(sb);
+        
+        // Handle result
+        if (result != null) {
+            JOptionPane.showMessageDialog(this, 
+                "Success: " + result,
+                "Success",
+                JOptionPane.INFORMATION_MESSAGE);
+            // Clear fields on success
+            txtSubjectCode.setText("");
+            txtSubjectName.setText("");
+        } else {
+            JOptionPane.showMessageDialog(this, 
+                "Failed to add subject",
+                "Error",
+                JOptionPane.ERROR_MESSAGE);
+        }
+        
+    } catch (IllegalArgumentException e) {
+        // Catch validation errors from Subject class
+        JOptionPane.showMessageDialog(this,
+            "Invalid subject data: " + e.getMessage(),
+            "Validation Error",
+            JOptionPane.ERROR_MESSAGE);
+    }
     }//GEN-LAST:event_AddSbjectActionPerformed
 
     /**

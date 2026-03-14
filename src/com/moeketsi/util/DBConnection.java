@@ -13,7 +13,7 @@ import java.sql.SQLException;
  */
 public class DBConnection {
      private static final String URL =
-        "jdbc:mysql://localhost:3307/schooldb?useSSL=false&serverTimezone=UTC";
+        "jdbc:mysql://localhost:3306/schooldb?useSSL=false&serverTimezone=UTC";
     private static final String USER = "root";
     private static final String PASSWORD = ""; // XAMPP default
 

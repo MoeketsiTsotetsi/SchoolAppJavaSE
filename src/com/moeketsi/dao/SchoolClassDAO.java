@@ -20,7 +20,7 @@ import java.util.ArrayList;
 public class SchoolClassDAO {
 
     public static String addSchoolClass(SchoolClass schoolClass) throws SQLException {
-        String sql = "insert into class_room(grade_level,stream) values(?,?)";
+        String sql = "insert into class_room(gradelevel,stream) values(?,?)";
 
         try (Connection conn = DBConnection.getConnection(); PreparedStatement psmst = conn.prepareStatement(sql)) {
             psmst.setString(1, schoolClass.getGradelevel().name());
@@ -37,7 +37,7 @@ public class SchoolClassDAO {
     }
 
     public SchoolClass findByGradeAndStream(Gradelevel grade_level, String stream) throws SQLException {
-        String sql = "SELECT * FROM class_room WHERE grade_level=? AND stream=?";
+        String sql = "SELECT * FROM class_room WHERE gradelevel=? AND stream=?";
         SchoolClass sc = null;
 
         try (Connection conn = DBConnection.getConnection(); PreparedStatement psmst = conn.prepareStatement(sql);) {
@@ -47,7 +47,7 @@ public class SchoolClassDAO {
             ResultSet res = psmst.executeQuery();
 
             if (res.next()) {
-                sc = new SchoolClass(res.getInt("class_id"), Gradelevel.valueOf(res.getString("grade_level")), res.getString("stream"));
+                sc = new SchoolClass(res.getInt("classId"), Gradelevel.valueOf(res.getString("gradelevel")), res.getString("stream"));
             }
 
             return sc;
@@ -68,8 +68,8 @@ public class SchoolClassDAO {
 
             while (res.next()) {
                 arSchoolClass.add(new SchoolClass(
-                        res.getInt("class_id"),
-                        Gradelevel.valueOf(res.getString("grade_level")),
+                        res.getInt("classId"),
+                        Gradelevel.valueOf(res.getString("gradelevel")),
                         res.getString("stream")
                 ));
             }
@@ -82,5 +82,6 @@ public class SchoolClassDAO {
         }
 
     }
+    
 
 }

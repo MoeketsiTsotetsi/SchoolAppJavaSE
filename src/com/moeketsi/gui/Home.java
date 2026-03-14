@@ -76,6 +76,9 @@ public class Home extends javax.swing.JFrame {
                 = SchoolClass.Gradelevel.valueOf(formattedGrade);
 
         SchoolClass sc = new SchoolClass(0, gradeLevel, streamInput.trim());
+        
+        loadClasses();
+        loadClassesIntoTable();
 
         return SchoolClassDAO.addSchoolClass(sc);
     }
@@ -229,6 +232,7 @@ public class Home extends javax.swing.JFrame {
             
             JOptionPane.showMessageDialog(this, result);
             loadClasses();
+            loadClassesIntoTable();
         } catch (IllegalArgumentException e) {
             JOptionPane.showMessageDialog(this, "Please enter the correct grade : 8 to 12");
         }catch(SQLIntegrityConstraintViolationException e){

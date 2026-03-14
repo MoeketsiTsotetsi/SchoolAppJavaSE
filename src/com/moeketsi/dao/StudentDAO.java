@@ -22,7 +22,7 @@ public class StudentDAO {
 
     // ADD
     public static String addStudent(Student student) throws SQLException {
-        String sql = "INSERT INTO student (student_id,first_name, last_name, class_id) "
+        String sql = "INSERT INTO student (studentid,firstname, lastname, classid) "
                 + "VALUES ( ?,?, ?, ?)";
         try (Connection conn = DBConnection.getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
@@ -42,7 +42,7 @@ public class StudentDAO {
 
     // UPDATE
     public boolean updateStudent(Student student) throws SQLException {
-        String sql = "UPDATE student SET first_name=?, last_name=?, class_id=? WHERE student_id=?";
+        String sql = "UPDATE student SET firstname=?, lastname=?, classid=? WHERE studentid=?";
         try (Connection conn = DBConnection.getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             pstmt.setString(1, student.getFirstName());
@@ -60,7 +60,7 @@ public class StudentDAO {
 
     // DELETE
     public boolean deleteStudent(int studentId) throws SQLException {
-        String sql = "DELETE FROM student WHERE student_id=?";
+        String sql = "DELETE FROM student WHERE studentid=?";
         try (Connection conn = DBConnection.getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             pstmt.setInt(1, studentId);
@@ -88,15 +88,15 @@ public class StudentDAO {
 
             if (rs.next()) {
                 SchoolClass schoolClass = new SchoolClass(
-                        rs.getInt("class_id"),
-                        Gradelevel.valueOf(rs.getString("grade_level")),
+                        rs.getInt("classid"),
+                        Gradelevel.valueOf(rs.getString("gradelevel")),
                         rs.getString("stream")
                 );
 
                 return new Student(
-                        rs.getInt("student_id"),
-                        rs.getString("first_name"),
-                        rs.getString("last_name"),
+                        rs.getInt("studentid"),
+                        rs.getString("firstname"),
+                        rs.getString("lastname"),
                         schoolClass
                 );
             }
@@ -112,11 +112,11 @@ public class StudentDAO {
     public static ArrayList<Student> findByClass(int classId) throws SQLException {
         ArrayList<Student> students = new ArrayList<>();
         String sql
-                = "SELECT s.student_id, s.first_name, s.last_name, "
-                + "c.class_id, c.grade_level, c.stream "
+                = "SELECT s.studentid, s.firstname, s.lastname, "
+                + "c.classid, c.gradelevel, c.stream "
                 + "FROM student s "
-                + "JOIN class_room c ON s.class_id = c.class_id "
-                + "WHERE c.class_id = ?";
+                + "JOIN class_room c ON s.classid = c.classid "
+                + "WHERE c.classid = ?";
 
         try (Connection conn = DBConnection.getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
@@ -125,15 +125,15 @@ public class StudentDAO {
 
             while (rs.next()) {
                 SchoolClass schoolClass = new SchoolClass(
-                        rs.getInt("class_id"),
-                        Gradelevel.valueOf(rs.getString("grade_level")),
+                        rs.getInt("classid"),
+                        Gradelevel.valueOf(rs.getString("gradelevel")),
                         rs.getString("stream")
                 );
 
                 students.add(new Student(
-                        rs.getInt("student_id"),
-                        rs.getString("first_name"),
-                        rs.getString("last_name"),
+                        rs.getInt("studentid"),
+                        rs.getString("firstname"),
+                        rs.getString("lastname"),
                         schoolClass
                 ));
             }
