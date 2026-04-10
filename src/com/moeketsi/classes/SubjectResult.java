@@ -13,8 +13,9 @@ public class SubjectResult {
     private Subject subject;
     private int cassMark;
     private int examMark;
+    private Student student;
 
-    public SubjectResult(Subject subject, int cassMark, int examMark) {
+    public SubjectResult(Subject subject, int cassMark, int examMark,Student student) {
         setSubject(subject);
         setCassMark(cassMark);
         setExamMark(examMark);
@@ -59,6 +60,18 @@ public class SubjectResult {
         finalMark = (cassMark * 0.25) + (examMark * 0.75);
 
         return finalMark;
+    }
+
+    public Student getStudent() {
+        return student;
+    }
+
+    public void setStudent(Student student) {
+        
+        if(student == null){
+            throw new IllegalArgumentException("Student cannot be null");
+        }
+        this.student = student;
     }
 
     @Override

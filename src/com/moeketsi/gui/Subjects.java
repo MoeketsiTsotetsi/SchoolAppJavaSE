@@ -7,6 +7,10 @@ import com.moeketsi.classes.Subject;
 import com.moeketsi.dao.SubjectDAO;
 import javax.swing.JOptionPane;
 import java.sql.SQLException;
+import java.util.List;
+import com.moeketsi.classes.SubjectStreams;
+import com.moeketsi.dao.SubjectStreamsDAO;
+import javax.swing.JFrame;
 /**
  *
  * @author Moeketsi Tsotetsi
@@ -14,12 +18,34 @@ import java.sql.SQLException;
 public class Subjects extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(Subjects.class.getName());
+    private List<SubjectStreams> arSubjectStreams ;
 
     /**
      * Creates new form Subjects
      */
     public Subjects() {
         initComponents();
+        loadSubjectStreams();
+        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        
+    }
+    
+    
+    public void loadSubjectStreams(){
+        try {
+            arSubjectStreams = SubjectStreamsDAO.getAllSubjectStreams();
+            
+            
+            
+            for (int i = 0; i < arSubjectStreams.size(); i++) {
+                cmbSelectSream.addItem(arSubjectStreams.get(i).toString());
+                
+            }
+            
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(this, "Something went wrong while retrieving subkect streams", "Error",JOptionPane.ERROR_MESSAGE);
+            System.out.println(e.getMessage());
+        }
     }
 
     
@@ -51,11 +77,11 @@ public class Subjects extends javax.swing.JFrame {
         jProgressBar1 = new javax.swing.JProgressBar();
         jPanel1 = new javax.swing.JPanel();
         btnAddSubject = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        txtSubjectCode = new javax.swing.JTextField();
         txtSubjectName = new javax.swing.JTextField();
         AddSbject = new javax.swing.JButton();
+        jLabel3 = new javax.swing.JLabel();
+        cmbSelectSream = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -63,13 +89,13 @@ public class Subjects extends javax.swing.JFrame {
 
         btnAddSubject.setBorder(javax.swing.BorderFactory.createTitledBorder("Subject Details"));
 
-        jLabel1.setText("Enter Subject Code");
-
         jLabel2.setText("Enter Subject Name");
 
         AddSbject.setFont(new java.awt.Font("Segoe UI Black", 0, 12)); // NOI18N
         AddSbject.setText("Add Subject");
         AddSbject.addActionListener(this::AddSbjectActionPerformed);
+
+        jLabel3.setText("Select Stream");
 
         javax.swing.GroupLayout btnAddSubjectLayout = new javax.swing.GroupLayout(btnAddSubject);
         btnAddSubject.setLayout(btnAddSubjectLayout);
@@ -80,31 +106,31 @@ public class Subjects extends javax.swing.JFrame {
                     .addGroup(btnAddSubjectLayout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(btnAddSubjectLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel2))
-                        .addGap(85, 85, 85)
-                        .addGroup(btnAddSubjectLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(txtSubjectCode)
-                            .addComponent(txtSubjectName, javax.swing.GroupLayout.DEFAULT_SIZE, 131, Short.MAX_VALUE)))
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(98, 98, 98)
+                        .addGroup(btnAddSubjectLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(cmbSelectSream, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtSubjectName, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(btnAddSubjectLayout.createSequentialGroup()
-                        .addGap(118, 118, 118)
+                        .addGap(131, 131, 131)
                         .addComponent(AddSbject)))
                 .addContainerGap(46, Short.MAX_VALUE))
         );
         btnAddSubjectLayout.setVerticalGroup(
             btnAddSubjectLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(btnAddSubjectLayout.createSequentialGroup()
-                .addGap(43, 43, 43)
-                .addGroup(btnAddSubjectLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(txtSubjectCode, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(59, 59, 59)
+                .addGap(31, 31, 31)
                 .addGroup(btnAddSubjectLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(txtSubjectName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
+                .addGap(35, 35, 35)
+                .addGroup(btnAddSubjectLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel3)
+                    .addComponent(cmbSelectSream, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 87, Short.MAX_VALUE)
                 .addComponent(AddSbject)
-                .addGap(48, 48, 48))
+                .addGap(60, 60, 60))
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -132,7 +158,9 @@ public class Subjects extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
@@ -142,20 +170,16 @@ public class Subjects extends javax.swing.JFrame {
         
         
          try {
-        // Validate inputs
-        String codeText = txtSubjectCode.getText().trim();
-        if (codeText.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Subject Code cannot be empty");
-            return;
-        }
+        String strStream =   cmbSelectSream.getSelectedItem().toString();
         
-        int subjectCode;
-        try {
-            subjectCode = Integer.parseInt(codeText);
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this, "Subject Code must be a valid number");
-            return;
-        }
+        SubjectStreams ss = null;
+        
+             for (int i = 0; i < arSubjectStreams.size(); i++) {
+                 if(arSubjectStreams.get(i).getStreamName().equalsIgnoreCase(strStream)){
+                     ss = arSubjectStreams.get(i);
+                 }
+                 
+             }
         
         String subjectName = txtSubjectName.getText().trim();
         if (subjectName.isEmpty()) {
@@ -164,7 +188,7 @@ public class Subjects extends javax.swing.JFrame {
         }
         
         // Create subject object (may throw IllegalArgumentException from your class)
-        Subject sb = new Subject(subjectCode, subjectName);
+        Subject sb = new Subject(subjectName, ss);
         System.out.println("Class in gui: " + sb);
         
         // Add subject
@@ -177,7 +201,6 @@ public class Subjects extends javax.swing.JFrame {
                 "Success",
                 JOptionPane.INFORMATION_MESSAGE);
             // Clear fields on success
-            txtSubjectCode.setText("");
             txtSubjectName.setText("");
         } else {
             JOptionPane.showMessageDialog(this, 
@@ -223,11 +246,11 @@ public class Subjects extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton AddSbject;
     private javax.swing.JPanel btnAddSubject;
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JComboBox<String> cmbSelectSream;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JProgressBar jProgressBar1;
-    private javax.swing.JTextField txtSubjectCode;
     private javax.swing.JTextField txtSubjectName;
     // End of variables declaration//GEN-END:variables
 }

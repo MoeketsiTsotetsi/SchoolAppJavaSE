@@ -11,11 +11,43 @@ package com.moeketsi.classes;
 public class Subject {
     private  int subjectCode;
     private String subjectName;
+    private SubjectStreams subjectStreams;
 
-    public Subject(int subjectCode, String subjectName) {
+    public Subject( String subjectName, SubjectStreams subjectStreams) {
         this.subjectCode = subjectCode;
         setSubjecName(subjectName);
+        setSubjectStreams(subjectStreams);
     }
+
+    public Subject(int subjectCode, String subjectName, SubjectStreams subjectStreams) {
+        this.subjectCode = subjectCode;
+        setSubjecName(subjectName);
+        setSubjectStreams(subjectStreams);
+    }
+    
+    
+
+    public String getSubjectName() {
+        return subjectName;
+    }
+
+    public void setSubjectName(String subjectName) {
+        this.subjectName = subjectName;
+    }
+
+    public SubjectStreams getSubjectStreams() {
+        return subjectStreams;
+    }
+
+    public void setSubjectStreams(SubjectStreams subjectStreams) {
+        
+        if(subjectStreams == null){
+            throw new IllegalArgumentException("Subject streams cannot be null");
+        }
+        this.subjectStreams = subjectStreams;
+    }
+    
+    
 
     public int getSubjectCode() {
         return subjectCode;
