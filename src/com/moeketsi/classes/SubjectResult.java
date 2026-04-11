@@ -11,19 +11,36 @@ package com.moeketsi.classes;
 public class SubjectResult {
 
     private Subject subject;
+    private String grade;
     private int cassMark;
     private int examMark;
     private Student student;
 
-    public SubjectResult(Subject subject, int cassMark, int examMark,Student student) {
+    public SubjectResult(Subject subject, int cassMark, int examMark,Student student,String grade) {
         setSubject(subject);
         setCassMark(cassMark);
         setExamMark(examMark);
+        setStudent(student);
+        setGrade(grade);
     }
 
     public Subject getSubject() {
         return subject;
     }
+
+    public String getGrade() {
+        return grade;
+    }
+
+    public void setGrade(String grade) {
+        
+        if(grade.length()<2){
+            throw new IllegalArgumentException("Grade cannot be be less than 2 characters");
+        }
+        this.grade = grade;
+    }
+    
+    
 
     public void setSubject(Subject subject) {
         if (subject == null) {
@@ -54,10 +71,11 @@ public class SubjectResult {
         this.examMark = examMark;
     }
 
-    public double calculateFinalMark() {
-        double finalMark = 0;
+    public int calculateFinalMark() {
+        int finalMark = 0;
 
-        finalMark = (cassMark * 0.25) + (examMark * 0.75);
+        double rawMark = (cassMark * 0.25) + (examMark * 0.75);
+        finalMark = (int) Math.round(rawMark);
 
         return finalMark;
     }

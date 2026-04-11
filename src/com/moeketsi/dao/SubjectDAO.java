@@ -60,7 +60,7 @@ public class SubjectDAO {
                         res.getString("stream_name"),
                         res.getString("stream_code"), res.getString("description"));
                 
-                arSubjects.add(new Subject(res.getString("subjectname"), ss));
+                arSubjects.add(new Subject(res.getInt("subjectcode"),res.getString("subjectname"), ss));
             }
             
             return arSubjects;

@@ -73,13 +73,13 @@ public class StudentDAO {
     }
 
     // FIND BY ID (JOIN)
-    public Student findById(int studentId) throws SQLException {
+    public static Student findById(int studentId) throws SQLException {
         String sql
-                = "SELECT s.student_id, s.first_name, s.last_name, "
-                + "c.class_id, c.grade_level, c.stream "
+                = "SELECT s.studentId, s.firstname, s.lastname, "
+                + "c.classid, c.gradelevel, c.stream "
                 + "FROM student s "
-                + "JOIN class_room c ON s.class_id = c.class_id "
-                + "WHERE s.student_id = ?";
+                + "JOIN class_room c ON s.classid = c.classid "
+                + "WHERE s.studentid = ?";
 
         try (Connection conn = DBConnection.getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
 

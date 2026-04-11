@@ -4,9 +4,13 @@
  */
 package com.moeketsi.gui;
 
+import com.moeketsi.classes.Student;
 import com.moeketsi.classes.Subject;
+import com.moeketsi.classes.SubjectResult;
 import com.moeketsi.classes.SubjectStreams;
+import com.moeketsi.dao.StudentDAO;
 import com.moeketsi.dao.SubjectDAO;
+import com.moeketsi.dao.SubjectResultDAO;
 import com.moeketsi.dao.SubjectStreamsDAO;
 import java.util.ArrayList;
 import javax.swing.JFrame;
@@ -36,7 +40,7 @@ public class MarksFrame extends javax.swing.JFrame {
     
     
     private void loadStreams(){
-        cmbSubjects.removeAllItems();
+        cmbSubject.removeAllItems();
         try {
             arStreams = SubjectStreamsDAO.getAllSubjectStreams();
             
@@ -67,7 +71,7 @@ public class MarksFrame extends javax.swing.JFrame {
           arSubjects = SubjectDAO.getSubjectsByStreams(stream_id);
           
             for (int i = 0; i < arSubjects.size(); i++) {
-                cmbSubjects.addItem(arSubjects.get(i).getSubjecName());
+                cmbSubject.addItem(arSubjects.get(i).getSubjecName());
                 
             }
             
@@ -96,12 +100,14 @@ public class MarksFrame extends javax.swing.JFrame {
         txtStudentID = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        cmbSubjects = new javax.swing.JComboBox<>();
+        cmbSubject = new javax.swing.JComboBox<>();
         txtExamMark = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         txtCassMark1 = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         cmbStream = new javax.swing.JComboBox<>();
+        jLabel6 = new javax.swing.JLabel();
+        txtGrade = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -109,6 +115,7 @@ public class MarksFrame extends javax.swing.JFrame {
         jPanel1.setPreferredSize(new java.awt.Dimension(500, 500));
 
         btnAddMarks.setText("Add Marks");
+        btnAddMarks.addActionListener(this::btnAddMarksActionPerformed);
 
         jLabel1.setText("Student ID");
 
@@ -121,6 +128,8 @@ public class MarksFrame extends javax.swing.JFrame {
         jLabel5.setText("Select Stream");
 
         cmbStream.addActionListener(this::cmbStreamActionPerformed);
+
+        jLabel6.setText("Grade");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -137,15 +146,16 @@ public class MarksFrame extends javax.swing.JFrame {
                                 .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                 .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(56, 56, 56)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(txtStudentID)
-                                .addComponent(cmbSubjects, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(txtCassMark1)
-                                .addComponent(cmbStream, javax.swing.GroupLayout.Alignment.TRAILING, 0, 174, Short.MAX_VALUE))
-                            .addComponent(txtExamMark, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(txtStudentID, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(cmbSubject, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(txtCassMark1, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(cmbStream, 0, 174, Short.MAX_VALUE)
+                            .addComponent(txtExamMark, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 174, Short.MAX_VALUE)
+                            .addComponent(txtGrade, javax.swing.GroupLayout.Alignment.LEADING)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(136, 136, 136)
                         .addComponent(btnAddMarks, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -165,7 +175,7 @@ public class MarksFrame extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(cmbSubjects, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cmbSubject, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(18, 18, 18)
@@ -177,9 +187,13 @@ public class MarksFrame extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel4)
                     .addComponent(txtExamMark, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(52, 52, 52)
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel6)
+                    .addComponent(txtGrade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(24, 24, 24)
                 .addComponent(btnAddMarks)
-                .addContainerGap(192, Short.MAX_VALUE))
+                .addContainerGap(180, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -203,11 +217,54 @@ public class MarksFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void cmbStreamActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbStreamActionPerformed
-        cmbSubjects.removeAllItems();
+        cmbSubject.removeAllItems();
         String stringStream = cmbStream.getSelectedItem().toString();
         loadSubjectStreams(stringStream);
         
     }//GEN-LAST:event_cmbStreamActionPerformed
+
+    private void btnAddMarksActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddMarksActionPerformed
+        int studentId = Integer.parseInt(txtStudentID.getText());
+        Subject  subject = null;
+        String result;
+        Student st = null;
+        int cassMark = Integer.parseInt(txtCassMark1.getText());
+        int examMark = Integer.parseInt(txtExamMark.getText());
+        
+        String  strSubject = cmbSubject.getSelectedItem().toString();
+        String grade = txtGrade.getText();
+        if(!txtStudentID.getText().isBlank() || !txtCassMark1.getText().isBlank()
+                || !txtExamMark.getText().isBlank() || !txtGrade.getText().isBlank()){
+            
+            for (int i = 0; i < arSubjects.size(); i++) {
+                if(arSubjects.get(i).getSubjecName().equalsIgnoreCase(strSubject)){
+                    subject = arSubjects.get(i);
+                }
+                
+            }
+            
+            try {
+                st = StudentDAO.findById(studentId);
+  
+                SubjectResult sr = new SubjectResult(subject, cassMark, examMark, st, grade);
+                
+                result = SubjectResultDAO.addSubjectResult(sr);
+                
+                JOptionPane.showMessageDialog(this, result);
+                
+            } catch (SQLException e) {
+                System.out.println(e.getMessage());
+            }catch(IllegalArgumentException e){
+                JOptionPane.showMessageDialog(this, e.getMessage());
+            }
+            
+            
+        }else{
+            JOptionPane.showMessageDialog(this, "Please enter all student details");
+        }
+        
+        
+    }//GEN-LAST:event_btnAddMarksActionPerformed
 
     /**
      * @param args the command line arguments
@@ -239,16 +296,18 @@ public class MarksFrame extends javax.swing.JFrame {
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.ButtonGroup buttonGroup2;
     private javax.swing.JComboBox<String> cmbStream;
-    private javax.swing.JComboBox<String> cmbSubjects;
+    private javax.swing.JComboBox<String> cmbSubject;
     private javax.swing.JFileChooser jFileChooser1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JTextField txtCassMark1;
     private javax.swing.JTextField txtExamMark;
+    private javax.swing.JTextField txtGrade;
     private javax.swing.JTextField txtStudentID;
     // End of variables declaration//GEN-END:variables
 }

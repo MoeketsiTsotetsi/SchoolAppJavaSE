@@ -57,7 +57,7 @@ public class AddStudent extends javax.swing.JFrame {
             });
         }
         
-        System.out.println("Table now has " + model.getRowCount() + " rows");
+//        System.out.println("Table now has " + model.getRowCount() + " rows");
         
     } catch (SQLException e) {
         JOptionPane.showMessageDialog(this, e.getMessage());

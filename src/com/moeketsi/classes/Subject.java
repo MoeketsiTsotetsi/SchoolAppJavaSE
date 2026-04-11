@@ -20,7 +20,7 @@ public class Subject {
     }
 
     public Subject(int subjectCode, String subjectName, SubjectStreams subjectStreams) {
-        this.subjectCode = subjectCode;
+        setSubjectCode(subjectCode);
         setSubjecName(subjectName);
         setSubjectStreams(subjectStreams);
     }
