@@ -17,6 +17,11 @@
             <file>file:/C:/Users/Moeketsi%20Tsotetsi/Documents/NetBeansProjects/SchoolReports/src/com/moeketsi/gui/MarksFrame.java</file>
             <file>file:/C:/Users/Moeketsi%20Tsotetsi/Documents/NetBeansProjects/SchoolReports/src/com/moeketsi/classes/SubjectResult.java</file>
             <file>file:/C:/Users/Moeketsi%20Tsotetsi/Documents/NetBeansProjects/SchoolReports/src/com/moeketsi/dao/SubjectResultDAO.java</file>
+            <file>file:/C:/Users/Moeketsi%20Tsotetsi/Documents/NetBeansProjects/SchoolReports/src/com/moeketsi/dao/ReportDAO.java</file>
+            <file>file:/C:/Users/Moeketsi%20Tsotetsi/Documents/NetBeansProjects/SchoolReports/src/com/moeketsi/gui/ReportFrame.java</file>
+            <file>file:/C:/Users/Moeketsi%20Tsotetsi/Documents/NetBeansProjects/SchoolReports/src/com/moeketsi/gui/ReportPanel.java</file>
+            <file>file:/C:/Users/Moeketsi%20Tsotetsi/Documents/NetBeansProjects/SchoolReports/src/com/moeketsi/gui/Main.java</file>
+            <file>file:/C:/Users/Moeketsi%20Tsotetsi/Documents/NetBeansProjects/SchoolReports/test/test/ReportDAOTest.java</file>
         </group>
     </open-files>
 </project-private>

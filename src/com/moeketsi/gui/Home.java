@@ -10,6 +10,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import java.sql.SQLIntegrityConstraintViolationException;
+import javax.swing.JFrame;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -30,6 +31,7 @@ public class Home extends javax.swing.JFrame {
     public Home() {
 
         initComponents();
+        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         loadClasses();
         loadClassesIntoTable();
     }
@@ -56,7 +58,7 @@ public class Home extends javax.swing.JFrame {
 
             arClasses = scDAO.getAllSchoolClasses();
 
-            displayClassesInTextArea();
+//            displayClassesInTextArea();
 
         } catch (SQLException e) {
 
@@ -83,23 +85,7 @@ public class Home extends javax.swing.JFrame {
         return SchoolClassDAO.addSchoolClass(sc);
     }
 
-    private void displayClassesInTextArea() {
-
-//        txtAreaClass.setText(""); // clear first
-//
-//        StringBuilder sb = new StringBuilder();
-//
-//        sb.append("ID\tGRADE\tSTREAM\n");
-//        sb.append("---------------------------------------------------\n");
-//
-//        for (SchoolClass sc : arClasses) {
-//            sb.append(sc.getClassId()).append("\t")
-//                    .append(sc.getGradelevel().toString()).append("\t")
-//                    .append(sc.getStream()).append("\n");
-//        }
-//
-//        txtAreaClass.setText(sb.toString());
-    }
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -116,8 +102,6 @@ public class Home extends javax.swing.JFrame {
         txtGrade = new javax.swing.JTextField();
         txtStream = new javax.swing.JTextField();
         btnAddClass = new javax.swing.JButton();
-        btnAddStudents = new javax.swing.JButton();
-        btnAddSubjects = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
 
@@ -134,14 +118,6 @@ public class Home extends javax.swing.JFrame {
         btnAddClass.setFont(new java.awt.Font("Segoe UI Black", 0, 12)); // NOI18N
         btnAddClass.setText("Add  Class");
         btnAddClass.addActionListener(this::btnAddClassActionPerformed);
-
-        btnAddStudents.setFont(new java.awt.Font("Segoe UI Black", 0, 12)); // NOI18N
-        btnAddStudents.setText("Add Students ");
-        btnAddStudents.addActionListener(this::btnAddStudentsActionPerformed);
-
-        btnAddSubjects.setFont(new java.awt.Font("Swis721 Blk BT", 0, 12)); // NOI18N
-        btnAddSubjects.setText("Add Subjects");
-        btnAddSubjects.addActionListener(this::btnAddSubjectsActionPerformed);
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -173,10 +149,7 @@ public class Home extends javax.swing.JFrame {
                             .addComponent(txtStream, javax.swing.GroupLayout.DEFAULT_SIZE, 166, Short.MAX_VALUE)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(118, 118, 118)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(btnAddStudents, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnAddClass, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnAddSubjects, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addComponent(btnAddClass, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 54, Short.MAX_VALUE)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 452, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(38, 38, 38))
@@ -194,11 +167,7 @@ public class Home extends javax.swing.JFrame {
                     .addComponent(txtStream, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnAddClass)
-                .addGap(18, 18, 18)
-                .addComponent(btnAddStudents)
-                .addGap(18, 18, 18)
-                .addComponent(btnAddSubjects)
-                .addGap(8, 8, 8))
+                .addGap(89, 89, 89))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -245,19 +214,6 @@ public class Home extends javax.swing.JFrame {
         
     }//GEN-LAST:event_btnAddClassActionPerformed
 
-    private void btnAddStudentsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddStudentsActionPerformed
-        AddStudent addStudent  = new AddStudent();
-        addStudent.setVisible(true);
-        
-        
-    }//GEN-LAST:event_btnAddStudentsActionPerformed
-
-    private void btnAddSubjectsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddSubjectsActionPerformed
-        Subjects sb = new Subjects();
-        
-        sb.setVisible(true);
-    }//GEN-LAST:event_btnAddSubjectsActionPerformed
-
     /**
      * @param args the command line arguments
      */
@@ -285,8 +241,6 @@ public class Home extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAddClass;
-    private javax.swing.JButton btnAddStudents;
-    private javax.swing.JButton btnAddSubjects;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;

@@ -14,15 +14,32 @@ public class SubjectResult {
     private String grade;
     private int cassMark;
     private int examMark;
+    int term;
     private Student student;
 
-    public SubjectResult(Subject subject, int cassMark, int examMark,Student student,String grade) {
+    public SubjectResult(Subject subject, int cassMark, int examMark,Student student,String grade, int term) {
         setSubject(subject);
         setCassMark(cassMark);
         setExamMark(examMark);
         setStudent(student);
         setGrade(grade);
+        setTerm(term);
     }
+
+    public int getTerm() {
+        return term;
+    }
+
+    public void setTerm(int term) {
+        
+        if(term <=0 || term >4){
+            throw new IllegalArgumentException("Term has to be a valaue from 1 to 4");
+        }
+        this.term = term;
+    }
+    
+    
+    
 
     public Subject getSubject() {
         return subject;
@@ -78,6 +95,34 @@ public class SubjectResult {
         finalMark = (int) Math.round(rawMark);
 
         return finalMark;
+    }
+    
+    
+    public int getAchievementCode() {
+        int finalMark = calculateFinalMark();
+        if (finalMark >= 80) return 7;
+        if (finalMark >= 70) return 6;
+        if (finalMark >= 60) return 5;
+        if (finalMark >= 50) return 4;
+        if (finalMark >= 40) return 3;
+        if (finalMark >= 30) return 2;
+        return 1;
+    }
+    
+    public String getAchievementDescriptor() {
+        switch(getAchievementCode()) {
+            case 7: return "Outstanding";
+            case 6: return "Meritorious";
+            case 5: return "Substantial";
+            case 4: return "Moderate";
+            case 3: return "Adequate";
+            case 2: return "Elementary";
+            default: return "Not Achieved";
+        }
+    }
+    
+    public boolean isPass() {
+        return calculateFinalMark() >= 40;
     }
 
     public Student getStudent() {
